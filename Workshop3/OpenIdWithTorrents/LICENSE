@@ -1,0 +1,7 @@
+This code is awfull but demonstrates what we want to achieve with this workshop in a crude but simple way. 
+We use two components PHPTracker (http://php-tracker.org/) and LightOpenID (http://gitorious.org/lightopenid).
+The PHPTracker's licence is available in the /lib/PHPTracker 
+LightOpenId use the MIT license
+
+The rest of the code is licensed under WTFPL (http://sam.zoy.org/wtfpl/) 
+

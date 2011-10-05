@@ -1,0 +1,57 @@
+<?php
+require( dirname(__FILE__) . '/lib/PHPTracker/Autoloader.php' );
+PHPTracker_Autoloader::register();
+
+// To make filename safe
+// From php.net
+
+$SafeFile = $HTTP_POST_FILES['ufile']['name'];
+$SafeFile = str_replace("#", "No.", $SafeFile);
+$SafeFile = str_replace("$", "Dollar", $SafeFile);
+$SafeFile = str_replace("%", "Percent", $SafeFile);
+$SafeFile = str_replace("^", "", $SafeFile);
+$SafeFile = str_replace("&", "and", $SafeFile);
+$SafeFile = str_replace("*", "", $SafeFile);
+$SafeFile = str_replace("?", "", $SafeFile);
+
+// And we are uploading it to
+$uploaddir = "files/";
+$path = $uploaddir . $SafeFile;
+
+
+
+if ($ufile != none) { //AS LONG AS A FILE WAS SELECTED... 
+    if (copy($HTTP_POST_FILES['ufile']['tmp_name'], $path)) { //IF IT HAS BEEN COPIED... 
+        //GET FILE NAME 
+        $theFileName = $HTTP_POST_FILES['ufile']['name'];
+        //GET FILE SIZE 
+        $theFileSize = $HTTP_POST_FILES['ufile']['size'];
+
+        $config = new PHPTracker_Config_Simple(array(
+                    // Persistense object implementing PHPTracker_Persistence_Interface.
+                    // We use MySQL here. The object is initialized with its own config.
+                    'persistence' => new PHPTracker_Persistence_Mysql(
+                            new PHPTracker_Config_Simple(array(
+                                'db_host' => 'localhost',
+                                'db_user' => 'test',
+                                'db_password' => 'test',
+                                'db_name' => 'workshop3',
+                            ))
+                    ),
+                    // List of public announce URLs on your server.
+                    'announce' => array(
+                        'http://dellserv.msi.vxu.se/workshop3/announce.php',
+                    ),
+                ));
+        // Instantiate a new PHP tracker
+        $core = new PHPTracker_Core($config);
+        // 
+        $filetowrite = "torrents/" . time() . $theFileName . ".torrent";
+        $file = fopen($filetowrite, 'w');
+        fwrite($file, $core->createTorrent("files/".$theFileName, $theFileSize));
+        fclose($file);
+
+        echo "Created torrent with " . $theFileName . " and  the size " . $theFileSize;
+    }
+}
+?>
