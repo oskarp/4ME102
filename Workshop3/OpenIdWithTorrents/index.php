@@ -18,7 +18,7 @@ try {
         if (isset($_GET['login'])) {
             // 
             $openid->identity = 'https://www.google.com/accounts/o8/id';
-            $openid->required = array('namePerson/first', 'namePerson/last', 'contact/email');;
+            $openid->required = array('namePerson/first', 'namePerson/last', 'contact/email');
             header('Location: ' . $openid->authUrl());
         }
         $html .= "<h1>The torrent thing</h1>";
