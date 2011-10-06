@@ -33,9 +33,9 @@ if ($ufile != none) { //AS LONG AS A FILE WAS SELECTED...
                     'persistence' => new PHPTracker_Persistence_Mysql(
                             new PHPTracker_Config_Simple(array(
                                 'db_host' => 'localhost',
-                                'db_user' => 'test',
-                                'db_password' => 'test',
-                                'db_name' => 'workshop3',
+                                'db_user' => 'your user',
+                                'db_password' => 'your password',
+                                'db_name' => 'your database name ',
                             ))
                     ),
                     // List of public announce URLs on your server.

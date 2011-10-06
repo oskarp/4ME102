@@ -18,8 +18,7 @@ try {
         if (isset($_GET['login'])) {
             // 
             $openid->identity = 'https://www.google.com/accounts/o8/id';
-            $reqs = array('namePerson/first', 'namePerson/last', 'contact/email');
-            $openid->required = $reqs;
+            $openid->required = array('namePerson/first', 'namePerson/last', 'contact/email');;
             header('Location: ' . $openid->authUrl());
         }
         $html .= "<h1>The torrent thing</h1>";
@@ -32,9 +31,8 @@ try {
         session_destroy();
         header('Location: index.php');
     } else {
-        $identity = $openid->identity;
         $attrib = $openid->getAttributes();
-
+        
         $html .= 'Logged in as ' . $attrib['namePerson/first'] . " " . $attrib['namePerson/last'] . '  <a href="information.php">more information</a> <a href="index.php?logout">logout</a>';
         $html .= "<h1>Upload a new file</h1>";
         $html .= "<form action='upload.php' method='post' enctype='multipart/form-data'><input type='file'  name='ufile' /><input type='submit' value='Upload' /></form>";
