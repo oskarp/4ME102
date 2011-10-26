@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <title>
+     Google Maps + Charts + local and remote data Sample
+    </title>
+
+    <!-- Load the Google AJAX API. -->
+
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+
+     <!--Google maps API-->
+    <script src="http://maps.google.com/maps?file=api&v=2&api;key=ABCDEF"
+      type="text/javascript"></script>
+    <script type="text/javascript">
+	
+	// Load the Visualization API package.
+      google.load('visualization', '1',
+          {'packages': ['table', 'map', 'corechart']});
+	
+	//with setOnLoadCallback nothing starts before everything is ready 
+      google.setOnLoadCallback(initialize);
+
+      function initialize() {
+
+        // remote dataset in spreadsheet
+        var query = new google.visualization.Query(
+            'https://spreadsheets.google.com/pub?key=0ArHcBZKhLxH-dC1yUWlQTTRXcUhWX1Y2MGVweFNfWlE');
+        query.send(draw);
+      }
+       
+	   //check the error
+      function draw(response) {
+        if (response.isError()) {
+          alert('Error in query');
+        }
+
+      //get data from spreadsheet
+        var uniData = response.getDataTable();
+		
+		//draw chart
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(uniData, {'isStacked': true, 'legend': 'bottom','vAxis': {'title': 'Students/Staff'}});
+		
+		
+	
+			
+		//local dataset
+        var localdata = new google.visualization.DataTable();
+        localdata.addColumn('string', 'City');
+        localdata.addColumn('string', 'University');
+        localdata.addColumn('boolean', 'Campus');
+        localdata.addRows(4);
+        localdata.setCell(0, 0, 'Vaxjo, Sweden');
+        localdata.setCell(1, 0, 'Stockholm, Sweden');
+        localdata.setCell(2, 0, 'Tetovo, Macedonia');
+		localdata.setCell(3, 0, 'Kharkiv, Ukraine');
+        localdata.setCell(0, 1, 'Linnaeus University');
+        localdata.setCell(1, 1, 'KTH');
+        localdata.setCell(2, 1, 'SEEU');
+		localdata.setCell(3, 1, 'KNURE');
+        localdata.setCell(0, 2, true);
+        localdata.setCell(1, 2, false);
+        localdata.setCell(2, 2, true);
+		localdata.setCell(3, 2, false);
+
+        var localdataView = new google.visualization.DataView(localdata);
+        localdataView.setColumns([0, 1]);
+
+        var dataTable = new google.visualization.Table(document.getElementById('table_div'));
+        dataTable.draw(localdata, {showRowNumber: false});
+
+        var map = new google.visualization.Map(document.getElementById('map_div'));
+        map.draw(localdataView, {showTip: true});
+
+        // Set a 'select' event listener for the data table.
+        google.visualization.events.addListener(dataTable, 'select',
+            function() {
+              map.setSelection(dataTable.getSelection());
+            });
+
+        // Set a 'select' event listener for the map.
+        google.visualization.events.addListener(map, 'select',
+            function() {
+              dataTable.setSelection(map.getSelection());
+            });
+			
+      }
+    </script>
+  </head>
+
+  <body>
+  
+    
+   <table>
+     
+         <td>
+          <div id="table_div"  style="width: 400px; height: 300;"></div>
+        </td>
+        
+        <td>
+          <div id="map_div" style="width: 400px; height: 300;"></div>
+        </td>
+
+        <td>
+          <div id="chart_div" style="align: center; width: 500px; height: 300px;"></div>
+        </td>
+        
+        
+        
+               
+    </table> 
+    
+
+
+  </body>
+</html>
