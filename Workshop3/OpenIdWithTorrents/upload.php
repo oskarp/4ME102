@@ -20,8 +20,8 @@ $path = $uploaddir . $SafeFile;
 
 
 
-if ($ufile != none) { //AS LONG AS A FILE WAS SELECTED... 
-    if (copy($HTTP_POST_FILES['ufile']['tmp_name'], $path)) { //IF IT HAS BEEN COPIED... 
+if ($ufile != none) { //As long as a file was selected... 
+    if (copy($HTTP_POST_FILES['ufile']['tmp_name'], $path)) { //If it has been copied... 
         //GET FILE NAME 
         $theFileName = $HTTP_POST_FILES['ufile']['name'];
         //GET FILE SIZE 
@@ -40,7 +40,7 @@ if ($ufile != none) { //AS LONG AS A FILE WAS SELECTED...
                     ),
                     // List of public announce URLs on your server.
                     'announce' => array(
-                        'http://dellserv.msi.vxu.se/workshop3/announce.php',
+                        'THEURLOFYOURANNOUNCEFILE',
                     ),
                 ));
         // Instantiate a new PHP tracker
